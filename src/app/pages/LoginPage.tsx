@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth, UserRole } from '../context/AuthContext';
-import { User, Users, Shield } from 'lucide-react';
-import logoImage from 'figma:asset/79fc6ef2d604510a2608875490c760ec78962e5e.png';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import type { UserRole } from "../context/AuthContext";
+import { User, Users, Shield } from "lucide-react";
+import logoImage from "../../assets/GiggpallyLogo.png";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState<UserRole>('student');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [selectedRole, setSelectedRole] = useState<UserRole>("student");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!email || !password) {
-      setError('Please fill in all fields');
+      setError("Please fill in all fields");
       return;
     }
 
@@ -25,18 +26,18 @@ export const LoginPage = () => {
     if (success) {
       // Navigate based on role
       switch (selectedRole) {
-        case 'admin':
-          navigate('/admin/dashboard');
+        case "admin":
+          navigate("/admin/dashboard");
           break;
-        case 'writer':
-          navigate('/writer/dashboard');
+        case "writer":
+          navigate("/writer/dashboard");
           break;
-        case 'student':
-          navigate('/student/dashboard');
+        case "student":
+          navigate("/student/dashboard");
           break;
       }
     } else {
-      setError('Login failed. Please try again.');
+      setError("Login failed. Please try again.");
     }
   };
 
@@ -48,7 +49,9 @@ export const LoginPage = () => {
           <div className="flex items-center justify-center gap-2 mb-2">
             <img src={logoImage} alt="Gigg-Pailly" className="h-12" />
           </div>
-          <p className="text-gray-600">Welcome back! Please login to continue.</p>
+          <p className="text-gray-600">
+            Welcome back! Please login to continue.
+          </p>
         </div>
 
         {/* Login Card */}
@@ -63,11 +66,11 @@ export const LoginPage = () => {
             <div className="grid grid-cols-3 gap-3">
               <button
                 type="button"
-                onClick={() => setSelectedRole('student')}
+                onClick={() => setSelectedRole("student")}
                 className={`p-3 rounded-lg border-2 transition-all ${
-                  selectedRole === 'student'
-                    ? 'border-blue-600 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                  selectedRole === "student"
+                    ? "border-blue-600 bg-blue-50"
+                    : "border-gray-200 hover:border-gray-300"
                 }`}
               >
                 <User className="w-6 h-6 mx-auto mb-1 text-blue-600" />
@@ -75,11 +78,11 @@ export const LoginPage = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setSelectedRole('writer')}
+                onClick={() => setSelectedRole("writer")}
                 className={`p-3 rounded-lg border-2 transition-all ${
-                  selectedRole === 'writer'
-                    ? 'border-purple-600 bg-purple-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                  selectedRole === "writer"
+                    ? "border-purple-600 bg-purple-50"
+                    : "border-gray-200 hover:border-gray-300"
                 }`}
               >
                 <Users className="w-6 h-6 mx-auto mb-1 text-purple-600" />
@@ -87,11 +90,11 @@ export const LoginPage = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setSelectedRole('admin')}
+                onClick={() => setSelectedRole("admin")}
                 className={`p-3 rounded-lg border-2 transition-all ${
-                  selectedRole === 'admin'
-                    ? 'border-orange-600 bg-orange-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                  selectedRole === "admin"
+                    ? "border-orange-600 bg-orange-50"
+                    : "border-gray-200 hover:border-gray-300"
                 }`}
               >
                 <Shield className="w-6 h-6 mx-auto mb-1 text-orange-600" />
@@ -145,9 +148,9 @@ export const LoginPage = () => {
           {/* Sign Up Link */}
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Don't have an account?{' '}
+              Don't have an account?{" "}
               <button
-                onClick={() => navigate('/signup')}
+                onClick={() => navigate("/signup")}
                 className="text-blue-600 hover:text-blue-700 font-medium"
               >
                 Sign Up
@@ -159,7 +162,7 @@ export const LoginPage = () => {
         {/* Back to Home */}
         <div className="text-center mt-6">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="text-gray-600 hover:text-gray-900"
           >
             ← Back to Home

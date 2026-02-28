@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { mockWriters, getWriterProjects } from '../data/mockData';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { mockWriters, getWriterProjects } from "../data/mockData";
 import {
   LogOut,
   DollarSign,
@@ -11,21 +11,23 @@ import {
   Edit,
   Mail,
   Briefcase,
-} from 'lucide-react';
-import logoImage from 'figma:asset/79fc6ef2d604510a2608875490c760ec78962e5e.png';
+} from "lucide-react";
+import logoImage from "../../assets/GiggpallyLogo.png";
 
 export const WriterDashboard = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [activeTab, setActiveTab] = useState<'overview' | 'profile' | 'projects' | 'earnings'>(
-    'overview'
-  );
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "profile" | "projects" | "earnings"
+  >("overview");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   // Mock writer data (in real app, this would come from user ID)
   const writerData = mockWriters[0];
   const writerProjects = getWriterProjects(writerData.id);
-  const completedProjects = writerProjects.filter((p) => p.status === 'completed');
+  const completedProjects = writerProjects.filter(
+    (p) => p.status === "completed",
+  );
 
   const [profileData, setProfileData] = useState({
     bio: writerData.bio,
@@ -34,7 +36,7 @@ export const WriterDashboard = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   const handleSaveProfile = () => {
@@ -118,7 +120,10 @@ export const WriterDashboard = () => {
               <div>
                 <div className="text-sm text-gray-600">Active Projects</div>
                 <div className="text-3xl font-bold text-purple-600 mt-1">
-                  {writerProjects.filter((p) => p.status === 'in-progress').length}
+                  {
+                    writerProjects.filter((p) => p.status === "in-progress")
+                      .length
+                  }
                 </div>
               </div>
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -133,46 +138,54 @@ export const WriterDashboard = () => {
           <div className="border-b border-gray-200">
             <div className="flex">
               <button
-                onClick={() => setActiveTab('overview')}
+                onClick={() => setActiveTab("overview")}
                 className={`px-6 py-4 font-medium transition-colors relative ${
-                  activeTab === 'overview' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
+                  activeTab === "overview"
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 Overview
-                {activeTab === 'overview' && (
+                {activeTab === "overview" && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
                 )}
               </button>
               <button
-                onClick={() => setActiveTab('profile')}
+                onClick={() => setActiveTab("profile")}
                 className={`px-6 py-4 font-medium transition-colors relative ${
-                  activeTab === 'profile' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
+                  activeTab === "profile"
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 Profile
-                {activeTab === 'profile' && (
+                {activeTab === "profile" && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
                 )}
               </button>
               <button
-                onClick={() => setActiveTab('projects')}
+                onClick={() => setActiveTab("projects")}
                 className={`px-6 py-4 font-medium transition-colors relative ${
-                  activeTab === 'projects' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
+                  activeTab === "projects"
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 Projects
-                {activeTab === 'projects' && (
+                {activeTab === "projects" && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
                 )}
               </button>
               <button
-                onClick={() => setActiveTab('earnings')}
+                onClick={() => setActiveTab("earnings")}
                 className={`px-6 py-4 font-medium transition-colors relative ${
-                  activeTab === 'earnings' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
+                  activeTab === "earnings"
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 Earnings
-                {activeTab === 'earnings' && (
+                {activeTab === "earnings" && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
                 )}
               </button>
@@ -181,7 +194,7 @@ export const WriterDashboard = () => {
 
           <div className="p-6">
             {/* Overview Tab */}
-            {activeTab === 'overview' && (
+            {activeTab === "overview" && (
               <div className="space-y-6">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
@@ -204,9 +217,9 @@ export const WriterDashboard = () => {
                             <div className="flex items-center gap-4">
                               <span
                                 className={`px-2 py-1 rounded text-xs font-medium ${
-                                  project.status === 'completed'
-                                    ? 'bg-green-100 text-green-700'
-                                    : 'bg-blue-100 text-blue-700'
+                                  project.status === "completed"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-blue-100 text-blue-700"
                                 }`}
                               >
                                 {project.status}
@@ -214,7 +227,9 @@ export const WriterDashboard = () => {
                               {project.rating && (
                                 <div className="flex items-center gap-1 text-sm">
                                   <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                                  <span className="font-medium">{project.rating}</span>
+                                  <span className="font-medium">
+                                    {project.rating}
+                                  </span>
                                 </div>
                               )}
                               <span className="text-sm text-green-600 font-medium">
@@ -222,9 +237,11 @@ export const WriterDashboard = () => {
                               </span>
                             </div>
                           </div>
-                          {project.status === 'in-progress' && (
+                          {project.status === "in-progress" && (
                             <div className="ml-4">
-                              <div className="text-sm text-gray-600 mb-1">Progress</div>
+                              <div className="text-sm text-gray-600 mb-1">
+                                Progress
+                              </div>
                               <div className="w-32">
                                 <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                                   <div
@@ -247,7 +264,7 @@ export const WriterDashboard = () => {
             )}
 
             {/* Profile Tab */}
-            {activeTab === 'profile' && (
+            {activeTab === "profile" && (
               <div className="max-w-3xl">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-4">
@@ -257,10 +274,14 @@ export const WriterDashboard = () => {
                       className="w-20 h-20 rounded-full object-cover"
                     />
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900">{writerData.name}</h3>
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        {writerData.name}
+                      </h3>
                       <div className="flex items-center gap-1 text-yellow-500 mt-1">
                         <Star className="w-5 h-5 fill-current" />
-                        <span className="font-semibold">{writerData.rating}</span>
+                        <span className="font-semibold">
+                          {writerData.rating}
+                        </span>
                         <span className="text-gray-600 ml-1">
                           ({writerData.completedProjects} reviews)
                         </span>
@@ -286,7 +307,10 @@ export const WriterDashboard = () => {
 
                   <div className="flex items-center gap-3 text-gray-700">
                     <Briefcase className="w-5 h-5" />
-                    <span>Joined {new Date(writerData.joinedDate).toLocaleDateString()}</span>
+                    <span>
+                      Joined{" "}
+                      {new Date(writerData.joinedDate).toLocaleDateString()}
+                    </span>
                   </div>
 
                   <div>
@@ -295,7 +319,10 @@ export const WriterDashboard = () => {
                       <textarea
                         value={profileData.bio}
                         onChange={(e) =>
-                          setProfileData({ ...profileData, bio: e.target.value })
+                          setProfileData({
+                            ...profileData,
+                            bio: e.target.value,
+                          })
                         }
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         rows={4}
@@ -306,7 +333,9 @@ export const WriterDashboard = () => {
                   </div>
 
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">Areas of Expertise</h4>
+                    <h4 className="font-semibold text-gray-900 mb-3">
+                      Areas of Expertise
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       {profileData.expertise.map((skill) => (
                         <span
@@ -318,7 +347,8 @@ export const WriterDashboard = () => {
                       ))}
                     </div>
                     <p className="text-sm text-gray-600 mt-3">
-                      * Your profile is visible to students when they browse writers
+                      * Your profile is visible to students when they browse
+                      writers
                     </p>
                   </div>
 
@@ -349,7 +379,7 @@ export const WriterDashboard = () => {
             )}
 
             {/* Projects Tab */}
-            {activeTab === 'projects' && (
+            {activeTab === "projects" && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   Completed Projects ({completedProjects.length})
@@ -365,16 +395,22 @@ export const WriterDashboard = () => {
                           <h4 className="text-lg font-semibold text-gray-900 mb-2">
                             {project.title}
                           </h4>
-                          <p className="text-gray-600 mb-3">{project.description}</p>
+                          <p className="text-gray-600 mb-3">
+                            {project.description}
+                          </p>
                           <div className="flex items-center gap-6 text-sm">
                             <div>
                               <span className="text-gray-600">Student: </span>
-                              <span className="font-medium">{project.studentName}</span>
+                              <span className="font-medium">
+                                {project.studentName}
+                              </span>
                             </div>
                             <div>
                               <span className="text-gray-600">Completed: </span>
                               <span className="font-medium">
-                                {new Date(project.deadline).toLocaleDateString()}
+                                {new Date(
+                                  project.deadline,
+                                ).toLocaleDateString()}
                               </span>
                             </div>
                             <div>
@@ -389,23 +425,29 @@ export const WriterDashboard = () => {
                       {project.rating && (
                         <div className="mt-4 pt-4 border-t border-gray-200">
                           <div className="flex items-center gap-2 mb-2">
-                            <span className="font-medium text-gray-900">Client Rating:</span>
+                            <span className="font-medium text-gray-900">
+                              Client Rating:
+                            </span>
                             <div className="flex items-center gap-1">
                               {[...Array(5)].map((_, i) => (
                                 <Star
                                   key={i}
                                   className={`w-4 h-4 ${
                                     i < project.rating!
-                                      ? 'fill-yellow-500 text-yellow-500'
-                                      : 'text-gray-300'
+                                      ? "fill-yellow-500 text-yellow-500"
+                                      : "text-gray-300"
                                   }`}
                                 />
                               ))}
-                              <span className="ml-1 font-semibold">{project.rating}</span>
+                              <span className="ml-1 font-semibold">
+                                {project.rating}
+                              </span>
                             </div>
                           </div>
                           {project.review && (
-                            <p className="text-gray-700 italic">"{project.review}"</p>
+                            <p className="text-gray-700 italic">
+                              "{project.review}"
+                            </p>
                           )}
                         </div>
                       )}
@@ -416,10 +458,12 @@ export const WriterDashboard = () => {
             )}
 
             {/* Earnings Tab */}
-            {activeTab === 'earnings' && (
+            {activeTab === "earnings" && (
               <div>
                 <div className="bg-gradient-to-br from-green-500 to-green-600 p-8 rounded-xl text-white mb-8">
-                  <div className="text-sm opacity-90 mb-2">Total Earnings (USD)</div>
+                  <div className="text-sm opacity-90 mb-2">
+                    Total Earnings (USD)
+                  </div>
                   <div className="text-5xl font-bold mb-4">
                     ${writerData.earnings.toLocaleString()}
                   </div>
@@ -438,7 +482,9 @@ export const WriterDashboard = () => {
                       className="flex items-center justify-between border border-gray-200 rounded-lg p-4"
                     >
                       <div>
-                        <div className="font-medium text-gray-900">{project.title}</div>
+                        <div className="font-medium text-gray-900">
+                          {project.title}
+                        </div>
                         <div className="text-sm text-gray-600">
                           {new Date(project.deadline).toLocaleDateString()}
                         </div>

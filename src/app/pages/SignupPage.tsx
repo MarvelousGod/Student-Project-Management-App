@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth, UserRole } from '../context/AuthContext';
-import { User, Users } from 'lucide-react';
-import logoImage from 'figma:asset/79fc6ef2d604510a2608875490c760ec78962e5e.png';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import type { UserRole } from "../context/AuthContext";
+import { User, Users } from "lucide-react";
+import logoImage from "../../assets/GiggpallyLogo.png";
 
 export const SignupPage = () => {
   const navigate = useNavigate();
   const { signup } = useAuth();
   const [searchParams] = useSearchParams();
-  const roleFromUrl = searchParams.get('role') as UserRole | null;
+  const roleFromUrl = searchParams.get("role") as UserRole | null;
 
-  const [selectedRole, setSelectedRole] = useState<UserRole>(roleFromUrl || 'student');
+  const [selectedRole, setSelectedRole] = useState<UserRole>(
+    roleFromUrl || "student",
+  );
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
     expertise: [] as string[],
-    experience: '',
-    customExpertise: '',
+    experience: "",
+    customExpertise: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (roleFromUrl) {
@@ -30,64 +33,69 @@ export const SignupPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!formData.name || !formData.email || !formData.password) {
-      setError('Please fill in all required fields');
+      setError("Please fill in all required fields");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
-    if (selectedRole === 'writer' && formData.expertise.length === 0) {
-      setError('Please select at least one area of expertise');
+    if (selectedRole === "writer" && formData.expertise.length === 0) {
+      setError("Please select at least one area of expertise");
       return;
     }
 
-    const success = signup(formData.email, formData.password, formData.name, selectedRole);
+    const success = signup(
+      formData.email,
+      formData.password,
+      formData.name,
+      selectedRole,
+    );
     if (success) {
       // Navigate based on role
       switch (selectedRole) {
-        case 'writer':
-          navigate('/writer/dashboard');
+        case "writer":
+          navigate("/writer/dashboard");
           break;
-        case 'student':
-          navigate('/student/dashboard');
+        case "student":
+          navigate("/student/dashboard");
           break;
       }
     } else {
-      setError('Signup failed. Please try again.');
+      setError("Signup failed. Please try again.");
     }
   };
 
   const handleExpertiseToggle = (subject: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       expertise: prev.expertise.includes(subject)
-        ? prev.expertise.filter(s => s !== subject)
+        ? prev.expertise.filter((s) => s !== subject)
         : [...prev.expertise, subject],
     }));
   };
 
   const expertiseOptions = [
-    'Computer Science',
-    'Mathematics',
-    'Physics',
-    'Chemistry',
-    'Biology',
-    'Engineering',
-    'Business',
-    'Economics',
-    'Finance',
-    'Literature',
-    'History',
-    'Philosophy',
-    'Psychology',
-    'Marketing',
-    'Other',
+    "Computer Science",
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Engineering",
+    "Business",
+    "Economics",
+    "Finance",
+    "Literature",
+    "History",
+    "Philosophy",
+    "Psychology",
+    "Marketing",
+    "Other",
   ];
 
   return (
@@ -104,7 +112,7 @@ export const SignupPage = () => {
         {/* Signup Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Sign Up as {selectedRole === 'student' ? 'Student' : 'Writer'}
+            Sign Up as {selectedRole === "student" ? "Student" : "Writer"}
           </h2>
 
           {/* Role Selection - Only show if no role in URL */}
@@ -116,11 +124,11 @@ export const SignupPage = () => {
               <div className="grid grid-cols-2 gap-4">
                 <button
                   type="button"
-                  onClick={() => setSelectedRole('student')}
+                  onClick={() => setSelectedRole("student")}
                   className={`p-4 rounded-lg border-2 transition-all ${
-                    selectedRole === 'student'
-                      ? 'border-blue-600 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                    selectedRole === "student"
+                      ? "border-blue-600 bg-blue-50"
+                      : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   <User className="w-8 h-8 mx-auto mb-2 text-blue-600" />
@@ -131,11 +139,11 @@ export const SignupPage = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setSelectedRole('writer')}
+                  onClick={() => setSelectedRole("writer")}
                   className={`p-4 rounded-lg border-2 transition-all ${
-                    selectedRole === 'writer'
-                      ? 'border-purple-600 bg-purple-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                    selectedRole === "writer"
+                      ? "border-purple-600 bg-purple-50"
+                      : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   <Users className="w-8 h-8 mx-auto mb-2 text-purple-600" />
@@ -157,7 +165,9 @@ export const SignupPage = () => {
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your full name"
               />
@@ -170,7 +180,9 @@ export const SignupPage = () => {
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter your email"
               />
@@ -183,7 +195,9 @@ export const SignupPage = () => {
               <input
                 type="password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Create a password"
               />
@@ -196,14 +210,16 @@ export const SignupPage = () => {
               <input
                 type="password"
                 value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, confirmPassword: e.target.value })
+                }
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Confirm your password"
               />
             </div>
 
             {/* Writer-specific fields */}
-            {selectedRole === 'writer' && (
+            {selectedRole === "writer" && (
               <>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -211,7 +227,10 @@ export const SignupPage = () => {
                   </label>
                   <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border border-gray-300 rounded-lg p-3">
                     {expertiseOptions.map((subject) => (
-                      <label key={subject} className="flex items-center gap-2 cursor-pointer">
+                      <label
+                        key={subject}
+                        className="flex items-center gap-2 cursor-pointer"
+                      >
                         <input
                           type="checkbox"
                           checked={formData.expertise.includes(subject)}
@@ -225,7 +244,7 @@ export const SignupPage = () => {
                 </div>
 
                 {/* Custom Expertise Field - Show when "Other" is selected */}
-                {formData.expertise.includes('Other') && (
+                {formData.expertise.includes("Other") && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Specify Your Expertise
@@ -233,7 +252,12 @@ export const SignupPage = () => {
                     <input
                       type="text"
                       value={formData.customExpertise}
-                      onChange={(e) => setFormData({ ...formData, customExpertise: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          customExpertise: e.target.value,
+                        })
+                      }
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="e.g., Environmental Science, Art History"
                     />
@@ -246,7 +270,9 @@ export const SignupPage = () => {
                   </label>
                   <textarea
                     value={formData.experience}
-                    onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, experience: e.target.value })
+                    }
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Tell us about your experience and qualifications"
                     rows={3}
@@ -272,9 +298,9 @@ export const SignupPage = () => {
           {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Already have an account?{' '}
+              Already have an account?{" "}
               <button
-                onClick={() => navigate('/login')}
+                onClick={() => navigate("/login")}
                 className="text-blue-600 hover:text-blue-700 font-medium"
               >
                 Login
@@ -286,7 +312,7 @@ export const SignupPage = () => {
         {/* Back to Home */}
         <div className="text-center mt-6">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="text-gray-600 hover:text-gray-900"
           >
             ← Back to Home

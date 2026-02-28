@@ -1,41 +1,66 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { mockWriterApplications, mockProjects, mockWriters, WriterApplication } from '../data/mockData';
-import { LogOut, Users, FileText, TrendingUp, Check, X, Clock } from 'lucide-react';
-import logoImage from 'figma:asset/79fc6ef2d604510a2608875490c760ec78962e5e.png';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import {
+  mockWriterApplications,
+  mockProjects,
+  mockWriters,
+} from "../data/mockData";
+import type { WriterApplication } from "../data/mockData";
+import {
+  LogOut,
+  Users,
+  FileText,
+  TrendingUp,
+  Check,
+  X,
+  Clock,
+} from "lucide-react";
+import logoImage from "../../assets/GiggpallyLogo.png";
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [applications, setApplications] = useState<WriterApplication[]>(mockWriterApplications);
-  const [activeTab, setActiveTab] = useState<'applications' | 'writers' | 'projects'>('applications');
+  const [applications, setApplications] = useState<WriterApplication[]>(
+    mockWriterApplications,
+  );
+  const [activeTab, setActiveTab] = useState<
+    "applications" | "writers" | "projects"
+  >("applications");
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   const handleApprove = (applicationId: string) => {
-    setApplications(prev =>
-      prev.map(app =>
-        app.id === applicationId ? { ...app, status: 'approved' as const } : app
-      )
+    setApplications((prev) =>
+      prev.map((app) =>
+        app.id === applicationId
+          ? { ...app, status: "approved" as const }
+          : app,
+      ),
     );
   };
 
   const handleReject = (applicationId: string) => {
-    setApplications(prev =>
-      prev.map(app =>
-        app.id === applicationId ? { ...app, status: 'rejected' as const } : app
-      )
+    setApplications((prev) =>
+      prev.map((app) =>
+        app.id === applicationId
+          ? { ...app, status: "rejected" as const }
+          : app,
+      ),
     );
   };
 
-  const pendingApplications = applications.filter(app => app.status === 'pending');
+  const pendingApplications = applications.filter(
+    (app) => app.status === "pending",
+  );
   const approvedWriters = mockWriters.length;
   const totalProjects = mockProjects.length;
-  const activeProjects = mockProjects.filter(p => p.status === 'in-progress').length;
+  const activeProjects = mockProjects.filter(
+    (p) => p.status === "in-progress",
+  ).length;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -69,7 +94,9 @@ export const AdminDashboard = () => {
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-sm text-gray-600">Pending Applications</div>
+                <div className="text-sm text-gray-600">
+                  Pending Applications
+                </div>
                 <div className="text-3xl font-bold text-orange-600 mt-1">
                   {pendingApplications.length}
                 </div>
@@ -84,7 +111,9 @@ export const AdminDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-sm text-gray-600">Approved Writers</div>
-                <div className="text-3xl font-bold text-green-600 mt-1">{approvedWriters}</div>
+                <div className="text-3xl font-bold text-green-600 mt-1">
+                  {approvedWriters}
+                </div>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                 <Users className="w-6 h-6 text-green-600" />
@@ -96,7 +125,9 @@ export const AdminDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-sm text-gray-600">Total Projects</div>
-                <div className="text-3xl font-bold text-blue-600 mt-1">{totalProjects}</div>
+                <div className="text-3xl font-bold text-blue-600 mt-1">
+                  {totalProjects}
+                </div>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                 <FileText className="w-6 h-6 text-blue-600" />
@@ -108,7 +139,9 @@ export const AdminDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-sm text-gray-600">Active Projects</div>
-                <div className="text-3xl font-bold text-purple-600 mt-1">{activeProjects}</div>
+                <div className="text-3xl font-bold text-purple-600 mt-1">
+                  {activeProjects}
+                </div>
               </div>
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                 <TrendingUp className="w-6 h-6 text-purple-600" />
@@ -122,11 +155,11 @@ export const AdminDashboard = () => {
           <div className="border-b border-gray-200">
             <div className="flex">
               <button
-                onClick={() => setActiveTab('applications')}
+                onClick={() => setActiveTab("applications")}
                 className={`px-6 py-4 font-medium transition-colors relative ${
-                  activeTab === 'applications'
-                    ? 'text-blue-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                  activeTab === "applications"
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 Writer Applications
@@ -135,33 +168,33 @@ export const AdminDashboard = () => {
                     {pendingApplications.length}
                   </span>
                 )}
-                {activeTab === 'applications' && (
+                {activeTab === "applications" && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
                 )}
               </button>
               <button
-                onClick={() => setActiveTab('writers')}
+                onClick={() => setActiveTab("writers")}
                 className={`px-6 py-4 font-medium transition-colors relative ${
-                  activeTab === 'writers'
-                    ? 'text-blue-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                  activeTab === "writers"
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 Approved Writers
-                {activeTab === 'writers' && (
+                {activeTab === "writers" && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
                 )}
               </button>
               <button
-                onClick={() => setActiveTab('projects')}
+                onClick={() => setActiveTab("projects")}
                 className={`px-6 py-4 font-medium transition-colors relative ${
-                  activeTab === 'projects'
-                    ? 'text-blue-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                  activeTab === "projects"
+                    ? "text-blue-600"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 All Projects
-                {activeTab === 'projects' && (
+                {activeTab === "projects" && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
                 )}
               </button>
@@ -170,7 +203,7 @@ export const AdminDashboard = () => {
 
           <div className="p-6">
             {/* Applications Tab */}
-            {activeTab === 'applications' && (
+            {activeTab === "applications" && (
               <div className="space-y-4">
                 {applications.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
@@ -185,35 +218,45 @@ export const AdminDashboard = () => {
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-lg font-semibold text-gray-900">{app.name}</h3>
+                            <h3 className="text-lg font-semibold text-gray-900">
+                              {app.name}
+                            </h3>
                             <span
                               className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                app.status === 'approved'
-                                  ? 'bg-green-100 text-green-700'
-                                  : app.status === 'rejected'
-                                  ? 'bg-red-100 text-red-700'
-                                  : 'bg-orange-100 text-orange-700'
+                                app.status === "approved"
+                                  ? "bg-green-100 text-green-700"
+                                  : app.status === "rejected"
+                                    ? "bg-red-100 text-red-700"
+                                    : "bg-orange-100 text-orange-700"
                               }`}
                             >
-                              {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                              {app.status.charAt(0).toUpperCase() +
+                                app.status.slice(1)}
                             </span>
                           </div>
                           <div className="text-gray-600 mb-2">{app.email}</div>
                           <div className="mb-3">
-                            <span className="text-sm font-medium text-gray-700">Expertise: </span>
+                            <span className="text-sm font-medium text-gray-700">
+                              Expertise:{" "}
+                            </span>
                             <span className="text-sm text-gray-600">
-                              {app.expertise.join(', ')}
+                              {app.expertise.join(", ")}
                             </span>
                           </div>
                           <div className="mb-3">
-                            <span className="text-sm font-medium text-gray-700">Experience: </span>
-                            <span className="text-sm text-gray-600">{app.experience}</span>
+                            <span className="text-sm font-medium text-gray-700">
+                              Experience:{" "}
+                            </span>
+                            <span className="text-sm text-gray-600">
+                              {app.experience}
+                            </span>
                           </div>
                           <div className="text-sm text-gray-500">
-                            Applied on {new Date(app.appliedDate).toLocaleDateString()}
+                            Applied on{" "}
+                            {new Date(app.appliedDate).toLocaleDateString()}
                           </div>
                         </div>
-                        {app.status === 'pending' && (
+                        {app.status === "pending" && (
                           <div className="flex gap-2 ml-4">
                             <button
                               onClick={() => handleApprove(app.id)}
@@ -239,7 +282,7 @@ export const AdminDashboard = () => {
             )}
 
             {/* Writers Tab */}
-            {activeTab === 'writers' && (
+            {activeTab === "writers" && (
               <div className="grid md:grid-cols-2 gap-4">
                 {mockWriters.map((writer) => (
                   <div
@@ -256,11 +299,15 @@ export const AdminDashboard = () => {
                         <h3 className="text-lg font-semibold text-gray-900 mb-1">
                           {writer.name}
                         </h3>
-                        <div className="text-sm text-gray-600 mb-2">{writer.email}</div>
+                        <div className="text-sm text-gray-600 mb-2">
+                          {writer.email}
+                        </div>
                         <div className="flex items-center gap-4 mb-3">
                           <div className="flex items-center gap-1">
                             <span className="text-yellow-500">★</span>
-                            <span className="text-sm font-medium">{writer.rating}</span>
+                            <span className="text-sm font-medium">
+                              {writer.rating}
+                            </span>
                           </div>
                           <div className="text-sm text-gray-600">
                             {writer.completedProjects} projects
@@ -287,7 +334,7 @@ export const AdminDashboard = () => {
             )}
 
             {/* Projects Tab */}
-            {activeTab === 'projects' && (
+            {activeTab === "projects" && (
               <div className="space-y-4">
                 {mockProjects.map((project) => (
                   <div
@@ -299,15 +346,17 @@ export const AdminDashboard = () => {
                         <h3 className="text-lg font-semibold text-gray-900 mb-1">
                           {project.title}
                         </h3>
-                        <div className="text-sm text-gray-600">{project.description}</div>
+                        <div className="text-sm text-gray-600">
+                          {project.description}
+                        </div>
                       </div>
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-                          project.status === 'completed'
-                            ? 'bg-green-100 text-green-700'
-                            : project.status === 'in-progress'
-                            ? 'bg-blue-100 text-blue-700'
-                            : 'bg-gray-100 text-gray-700'
+                          project.status === "completed"
+                            ? "bg-green-100 text-green-700"
+                            : project.status === "in-progress"
+                              ? "bg-blue-100 text-blue-700"
+                              : "bg-gray-100 text-gray-700"
                         }`}
                       >
                         {project.status}
@@ -316,11 +365,15 @@ export const AdminDashboard = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
                         <span className="text-gray-600">Student: </span>
-                        <span className="font-medium">{project.studentName}</span>
+                        <span className="font-medium">
+                          {project.studentName}
+                        </span>
                       </div>
                       <div>
                         <span className="text-gray-600">Writer: </span>
-                        <span className="font-medium">{project.writerName || 'Unassigned'}</span>
+                        <span className="font-medium">
+                          {project.writerName || "Unassigned"}
+                        </span>
                       </div>
                       <div>
                         <span className="text-gray-600">Deadline: </span>
